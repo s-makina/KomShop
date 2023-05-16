@@ -1,0 +1,41 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:viewportWidth="496"
+    android:viewportHeight="968"
+    android:width="496dp"
+    android:height="968dp">
+    <group
+        android:translateX="-944"
+        android:translateY="-220">
+        <group
+            android:rotation="-90"
+            android:scaleX="-1"
+            android:scaleY="-1"
+            android:translateX="1570.578"
+            android:translateY="219.1172">
+            <group
+                android:translateX="0.882812"
+                android:translateY="0.578125">
+                <path
+                    android:pathData="M750.9596 137.1817L496.5883 289.1234"
+                    android:strokeColor="#D21C32"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M642.439462 371.683984L642.439462 30.3883495 751.827803 91.9554052 751.827803 433.949171"
+                    android:strokeColor="#D21C32"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M750.567758 306.853112L348.555634 548.834163L344.463519 75.8081275C344.23478 49.1450211 358.225353 24.3784817 381.172195 10.8225818C430.601001 -18.3759774 493.098116 16.8230197 493.796842 74.2531033C494.91416 166.085787 495.752149 234.9603 496.310808 280.876642C496.791462 320.381712 497.512443 379.639317 498.473751 458.649457"
+                    android:strokeColor="#D21C32"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M968 553.9362C828.080108 476.295005 755.586325 436.028643 750.51865 433.137115C668.960127 386.601227 546.622342 316.797394 383.505295 223.725618C361.273242 211.038978 334.014915 210.970669 311.718611 223.54614C262.585625 251.255305 262.264372 321.941267 311.144371 350.096446L535.606595 479.399185C586.730012 508.849549 588.10203 582.175435 538.115046 613.519687C513.351786 629.047159 482.002837 629.463707 456.83801 614.59923L0 339.481276"
+                    android:strokeColor="#D21C32"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M494.3652 118.8294L642.4395 202.2996"
+                    android:strokeColor="#D21C32"
+                    android:strokeWidth="1" />
+            </group>
+        </group>
+    </group>
+</vector>

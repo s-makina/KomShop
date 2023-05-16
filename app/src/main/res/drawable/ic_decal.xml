@@ -1,0 +1,39 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:viewportWidth="713"
+    android:viewportHeight="549"
+    android:width="713dp"
+    android:height="549dp">
+    <group
+        android:translateX="-727">
+        <group
+            android:rotation="-90"
+            android:scaleX="-1"
+            android:scaleY="-1"
+            android:translateX="1517"
+            android:translateY="-385">
+            <group
+                android:translateY="0.5">
+                <path
+                    android:pathData="M946.0692 172.9015L625.6087 364.4064"
+                    android:strokeColor="#8E99D3"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M809.353958 468.464319L809.353958 38.3009709 947.162875 115.899065 947.162875 546.062413"
+                    android:strokeColor="#8E99D3"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M945.575454 386.752565L439.115121 691.741461L433.959819 95.5473044C433.67165 61.9415681 451.297164 30.7262333 480.205907 13.6406023C542.476988 -23.1607767 621.211703 21.2034545 622.091967 93.5873778C623.49958 209.331767 624.555289 296.140059 625.259096 354.012253C625.86463 403.803787 626.772932 478.491088 627.984001 578.074156"
+                    android:strokeColor="#8E99D3"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M1202 700.36061C1039.80335 602.419559 956.115348 551.970743 950.936004 549.014161C846.982487 489.673248 691.052212 400.661878 483.145179 281.980052C455.136936 265.990021 420.796526 265.903926 392.707339 281.753841C330.808937 316.678012 330.404217 405.769424 391.983904 441.255745L674.764462 604.226769C739.170436 641.345517 740.898924 733.764246 677.924643 773.27002C646.727551 792.840588 607.233719 793.365599 575.530729 774.630658L0 427.87656"
+                    android:strokeColor="#8E99D3"
+                    android:strokeWidth="1" />
+                <path
+                    android:pathData="M622.808 149.7706L809.354 254.975"
+                    android:strokeColor="#8E99D3"
+                    android:strokeWidth="1" />
+            </group>
+        </group>
+    </group>
+</vector>
