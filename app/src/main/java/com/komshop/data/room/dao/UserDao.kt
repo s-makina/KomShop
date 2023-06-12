@@ -1,5 +1,6 @@
 package com.komshop.data.room.dao
 
+import androidx.annotation.Keep
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -8,6 +9,7 @@ import androidx.room.Update
 import com.komshop.data.room.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
 
+@Keep
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

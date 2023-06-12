@@ -1,5 +1,6 @@
 package com.komshop.data.room.entity
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -7,6 +8,7 @@ import com.komshop.data.model.MediaItem
 import com.komshop.data.model.ProductCategory
 import com.komshop.data.model.ProductImage
 
+@Keep
 @Entity("tbl_cart_item", indices = [ Index(value = ["itemId"], unique = true)]  )
 class ProductEntity(
     @PrimaryKey(autoGenerate = true)

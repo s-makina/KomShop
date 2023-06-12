@@ -1,5 +1,6 @@
 package com.komshop.data.room.dao
 
+import androidx.annotation.Keep
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -9,6 +10,7 @@ import androidx.room.Update
 import com.komshop.data.room.entity.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
+@Keep
 @Dao
 interface CartDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)

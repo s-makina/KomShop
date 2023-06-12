@@ -1,8 +1,10 @@
 package com.komshop.data.model
 
+import androidx.annotation.Keep
 import com.komshop.data.retrofit.dto.ProductCategoryDto
 import com.komshop.data.retrofit.dto.ProductImageDto
 
+@Keep
 data class Product (
     val id: String,
     val name: String,
