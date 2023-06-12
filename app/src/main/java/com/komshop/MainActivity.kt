@@ -66,19 +66,19 @@ class MainActivity : ComponentActivity() {
         val multiplePermissionsState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             rememberMultiplePermissionsState(permissions = listOf(
 //                Manifest.permission.BLUETOOTH,
-                Manifest.permission.CAMERA,
+//                Manifest.permission.CAMERA,
 //                Manifest.permission.BLUETOOTH_ADMIN,
 //                Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.READ_EXTERNAL_STORAGE,
             ))
         } else {
             rememberMultiplePermissionsState(permissions = listOf(
 //                Manifest.permission.BLUETOOTH,
-                Manifest.permission.CAMERA,
+//                Manifest.permission.CAMERA,
 //                Manifest.permission.BLUETOOTH_ADMIN,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.READ_EXTERNAL_STORAGE,
             ))
         }
 

@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,6 +28,7 @@ fun TopNav(
     title: String = "",
     subtitle: String = "",
     searchIcon: Boolean = false,
+    backButton: Boolean = false,
 ) {
     val notificationViewModel: NotificationViewModel = hiltViewModel()
     val state = notificationViewModel.state
@@ -39,100 +41,114 @@ fun TopNav(
         notificationViewModel.event(NotificationEvents.OnLoadData)
     })
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        IconButton(onClick = { navController.popBackStack() }, modifier = Modifier.size(60.dp)) {
-            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                Image(
-                    painter = painterResource(id = R.drawable.trust_auctioneer_logo),
-                    contentDescription = null,
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-        }
-
-        Column(
-            Modifier
-                .weight(1f)
-                .padding(horizontal = 8.dp), horizontalAlignment = Alignment.CenterHorizontally
+    Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.primary) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            if (showSearch) {
-                UnderLinedEditText(
-                    value = "",
-                    placeholderText = "Search",
-                    onValueChange = {},
-                    textAlign = TextAlign.Left,
-                    contentAlignment = Alignment.CenterStart
-                )
-            } else {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge,
-//                    color = MaterialTheme.colorScheme.onPrimary,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                if (subtitle.isNotEmpty())
-                    Text(
-                        text = subtitle,
-                        style = MaterialTheme.typography.bodyMedium,
-//                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f)
-                    )
-            }
-        }
 
-        if (searchIcon) {
-            IconButton(onClick = { showSearch = showSearch.not() }) {
-                Icon(imageVector = icon, contentDescription = null)
-            }
-        }
-
-        if (state.notificationItemCount > 0) {
-            BadgedBox(
-                modifier = Modifier.defaultMinSize(20.dp),
-                badge = {
-                    Badge(
-                        modifier = Modifier.offset(
-                            x = (-12).dp,
-                            y = (10).dp
+            Surface(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier,
+                color = Color.Transparent
+            ) {
+                Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+                    if (backButton) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null,
+                            modifier = Modifier.padding(end = 8.dp)
                         )
-                    ) { Text(text = state.notificationItemCount.toString()) }
-                }) {
-                IconButton(onClick = { navController.navigate(Screen.CartPage.route) }) {
-                    Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = null)
+                    } else {
+                        Spacer(modifier = Modifier.width(16.dp))
+                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.kom_shop_logo),
+                        contentDescription = null,
+                        modifier = Modifier.height(30.dp)
+                    )
                 }
             }
-        }
 
-        if (!showSearch) {
-            IconButton(onClick = { expanded.value = true }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More Button"
-                )
-                MenuDropDown(expanded = expanded, onClick = {
-                    if (it == "logout") {
-//                    settingsViewModel.logout(context)
-
-//                            navController.navigate(Screen.LoginPage.route) {
-//                                popUpTo(Screen.LoginPage.route)
-//                            }
-                    } else {
-                        navController.navigate(it) {
-                            launchSingleTop = true
-                        }
-                    }
-                })
+            Column(
+                Modifier
+                    .weight(1f)
+                    .padding(horizontal = 8.dp), horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (showSearch) {
+                    UnderLinedEditText(
+                        value = "",
+                        placeholderText = "Search",
+                        onValueChange = {},
+                        textAlign = TextAlign.Left,
+                        contentAlignment = Alignment.CenterStart
+                    )
+                } else {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge,
+//                    color = MaterialTheme.colorScheme.onPrimary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    if (subtitle.isNotEmpty())
+                        Text(
+                            text = subtitle,
+                            style = MaterialTheme.typography.bodyMedium,
+//                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f)
+                        )
+                }
             }
-        }
+
+            if (searchIcon) {
+                IconButton(onClick = { showSearch = showSearch.not() }) {
+                    Icon(imageVector = icon, contentDescription = null)
+                }
+            }
+
+            if (state.notificationItemCount > 0) {
+                BadgedBox(
+                    modifier = Modifier.defaultMinSize(20.dp),
+                    badge = {
+                        Badge(
+                            modifier = Modifier.offset(
+                                x = (-12).dp,
+                                y = (10).dp
+                            )
+                        ) { Text(text = state.notificationItemCount.toString()) }
+                    }) {
+                    IconButton(onClick = { navController.navigate(Screen.CartPage.route) }) {
+                        Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = null)
+                    }
+                }
+            }
+
+            if (!showSearch) {
+                IconButton(onClick = { expanded.value = true }) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = "More Button"
+                    )
+//                MenuDropDown(expanded = expanded, onClick = {
+//                    if (it == "logout") {
+////                    settingsViewModel.logout(context)
+//
+////                            navController.navigate(Screen.LoginPage.route) {
+////                                popUpTo(Screen.LoginPage.route)
+////                            }
+//                    } else {
+//                        navController.navigate(it) {
+//                            launchSingleTop = true
+//                        }
+//                    }
+//                })
+                }
+            }
 
 //        IconButton(onClick = { navController.navigate(Screen.AdminHome.route) }) {
 //            Icon(imageVector = Icons.Default.AdminPanelSettings, contentDescription = null)
 //        }
+        }
     }
 }
 

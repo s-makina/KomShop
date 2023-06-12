@@ -17,7 +17,7 @@ fun PageBackground(
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
-    containerColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     bottomBar: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {

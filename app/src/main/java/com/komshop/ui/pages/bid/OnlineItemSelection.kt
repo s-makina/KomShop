@@ -3,7 +3,6 @@ package com.komshop.ui.pages.bid
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material3.*
@@ -17,27 +16,26 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.komshop.R
 import com.komshop.data.Session
-import com.komshop.navigation.Screen
 import com.komshop.ui.componets.TopNav
+import com.komshop.ui.pages.shop.QRcodePreview
 import com.komshop.ui.theme.orangeBg
-import com.komshop.ui.viewmodel.AuctionItemViewModel
+import com.komshop.ui.viewmodel.ProductListViewModel
 import com.komshop.util.CodeGeneratorHelper
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnlineBidPage(navController: NavHostController) {
 
-    val auctionItemViewModel: AuctionItemViewModel = hiltViewModel()
-    val state = auctionItemViewModel.state
+    val productListViewModel: ProductListViewModel = hiltViewModel()
+    val state = productListViewModel.state
     val coroutineScope = rememberCoroutineScope()
 
     val showBidDialog = remember {
         mutableStateOf(false)
     }
 
-    val loadingState = auctionItemViewModel.loadingEvent.collectAsState(initial = null).value
-    val placeBidEventState = auctionItemViewModel.placeBidEvent.collectAsState(initial = null).value
+    val loadingState = productListViewModel.loadingEvent.collectAsState(initial = null).value
+    val placeBidEventState = productListViewModel.placeBidEvent.collectAsState(initial = null).value
 
     val showDialog = remember { mutableStateOf(false) }
     val bitMap = remember {
@@ -87,16 +85,16 @@ fun OnlineBidPage(navController: NavHostController) {
                 columns = GridCells.Fixed(2),
                 modifier = Modifier.padding(end = 8.dp, top = 8.dp)
             ) {
-                items(state.auctionItems) { item ->
-                    MyAuctionItem(item, onPreBid = {}) {
-                        Session.currentAuctionItem.value = item
-                        coroutineScope.launch {
-                            navController.navigate(Screen.OnlineBidPreview.route)
-                        }
-//                        showBidDialog.value = true
-//                        auctionItemViewModel.event(AuctionItemEvents.OnBid(item))
-                    }
-                }
+//                items(state.auctionItems) { item ->
+//                    MyAuctionItem(item, onPreBid = {}) {
+//                        Session.currentAuctionItem.value = item
+//                        coroutineScope.launch {
+//                            navController.navigate(Screen.OnlineBidPreview.route)
+//                        }
+////                        showBidDialog.value = true
+////                        auctionItemViewModel.event(AuctionItemEvents.OnBid(item))
+//                    }
+//                }
 
                 item {
                     Spacer(modifier = Modifier.height(100.dp))

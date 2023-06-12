@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.komshop.data.model.CartItem
 import com.komshop.data.repo.CartRepo
+import com.komshop.log
 import com.komshop.ui.events.CartEvents
 import com.komshop.ui.pages.bid.presentation.CartUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,7 +51,7 @@ class CartViewModel @Inject constructor(
     }
 
     private fun addQty(item: CartItem) {
-//        if (item.quantity >= 1) return
+        log("ADDEDDDDD")
         viewModelScope.launch(Dispatchers.IO) {
             val itm =  item.copy(quantity = item.quantity+1)
             cartRepo.updateItem(itm)
@@ -60,7 +61,7 @@ class CartViewModel @Inject constructor(
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepo.getCartItems().collectLatest {
-                state = state.copy(items = it, totalAmount = it.sumOf { it.totalPrice })
+                state = state.copy(items = it, totalAmount = it.sumOf { (it.price * it.quantity).toDouble() })
             }
         }
     }

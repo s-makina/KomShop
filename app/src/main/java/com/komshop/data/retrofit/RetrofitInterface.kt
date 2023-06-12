@@ -1,7 +1,8 @@
 package com.komshop.data.retrofit
 
-import com.komshop.data.retrofit.dto.AuctionItemDto
 import com.komshop.data.retrofit.dto.NetworkResponse
+import com.komshop.data.retrofit.dto.ProductCategoryDto
+import com.komshop.data.retrofit.dto.ProductDto
 import retrofit2.http.*
 
 interface RetrofitInterface {
@@ -10,7 +11,7 @@ interface RetrofitInterface {
     @POST("login")
     suspend fun authenticate(
         @Field("username") phone: String,
-        @Field("password") password: String
+        @Field("password") password: String,
     ): NetworkResponse
 
     @FormUrlEncoded
@@ -20,7 +21,7 @@ interface RetrofitInterface {
         @Field("phone") phone: String,
         @Field("email") email: String,
         @Field("password") password: String,
-        @Field("password_confirmation") passwordConf: String
+        @Field("password_confirmation") passwordConf: String,
     ): NetworkResponse
 
     @GET("auction-types")
@@ -29,19 +30,30 @@ interface RetrofitInterface {
     @GET("check-deposit/{reference_number}")
     suspend fun submitDepositRef(
         @Path("reference_number") referenceNumber: String,
-        @Query("auction_type_id") auctionTypeId: String
+        @Query("auction_type_id") auctionTypeId: String,
     ): NetworkResponse
 
     @GET("auction-types") //auction-types
     suspend fun getAuctions(@Query("type") auctionType: String): NetworkResponse
 
-    @GET("open-items")
-    suspend fun getAuctionItems(): List<AuctionItemDto>//NetworkResponse
+    @GET("wp-json/wc/v3/products")
+    suspend fun getProducts(): List<ProductDto>
+
+    @GET("/wp-json/wc/v3/products/categories")
+    suspend fun getProductCategory(@Query("hide_empty") hideEmpty: Boolean = true): List<ProductCategoryDto>
+
+    @GET("wp-json/wc/v3/products")
+    suspend fun getPaginatedProductList(
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int,
+        @Query("search") searchTerm: String,
+        @Query("category") category: String
+    ): List<ProductDto>//NetworkResponse
 
     @POST("place-a-bid/{item}/{amount}")
     suspend fun placeAbid(
         @Path("item") itemId: String,
-        @Path("amount") bidAmount: String
+        @Path("amount") bidAmount: String,
     ): NetworkResponse
 
     @GET("auctions")

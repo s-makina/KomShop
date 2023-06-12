@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.komshop.data.model.AuctionItem
+import com.komshop.data.model.Product
 import com.komshop.data.repo.BidingRepo
-import com.komshop.data.room.toCartEntity
+import com.komshop.data.room.toProductEntity
 import com.komshop.ui.events.BiddingEvents
 import com.komshop.ui.pages.bid.presentation.BiddingUiState
 import com.komshop.ui.usecases.Validators
@@ -46,9 +46,9 @@ class BidingViewModel @Inject constructor(
         }
     }
 
-    private fun addToCart(auctionItem: AuctionItem) {
+    private fun addToCart(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
-            bidingRepo.addToCart(auctionItem = auctionItem.toCartEntity())
+            bidingRepo.addToCart(product = product.toProductEntity())
         }
     }
 

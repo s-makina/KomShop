@@ -26,7 +26,9 @@ fun GridContainerComponent(
         if (!isEmpty) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                modifier = Modifier.fillMaxSize().padding(end = 8.dp, top = 8.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(end = 8.dp, top = 8.dp)
             ) {
                 content()
             }
@@ -45,6 +47,35 @@ fun GridContainerComponent(
                         onRefresh()
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun GridContainerComponent(
+    isLoading: Boolean = false,
+    errorMessage: String = "",
+    notFoundMessage: String = "Items Not Found",
+    isEmpty: Boolean = false,
+    onRefresh: () -> Unit = {},
+    content: LazyGridScope.() -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        if (!isEmpty) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(end = 8.dp, top = 8.dp)
+            ) {
+                content()
+            }
+        } else if( isLoading) {
+            ProgressLoader()
+        } else {
+            NotFoundComponent( description = notFoundMessage, retry = "Retry") {
+                onRefresh()
             }
         }
     }

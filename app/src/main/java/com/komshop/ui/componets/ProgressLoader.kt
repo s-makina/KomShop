@@ -1,5 +1,6 @@
 package com.komshop.ui.componets
 
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,13 +18,13 @@ import com.komshop.R
 
 @Composable
 fun ProgressLoader(modifier: Modifier = Modifier, size: Dp = 200.dp) {
-    LottLoader(modifier = modifier)
+//    LottLoader(modifier = modifier)
+    CircularProgressIndicator()
 }
 
 @Composable
 fun LottLoader(modifier: Modifier) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loader))
-    var isPlaying by remember{ mutableStateOf(false) }
 
     val progress by animateLottieCompositionAsState(
         composition,

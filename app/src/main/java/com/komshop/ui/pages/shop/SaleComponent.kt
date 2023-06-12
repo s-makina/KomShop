@@ -13,19 +13,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.komshop.data.model.AuctionItem
+import com.komshop.data.model.Product
 import com.komshop.formatMoney
 import com.komshop.ui.dialog.getImageRequest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SaleComponent(
-    item: AuctionItem,
-    isAuction: Boolean = true,
+fun ProductComponent(
+    item: Product,
     addToCart: () -> Unit = {},
-    placeABid: () -> Unit = {},
     onClick: () -> Unit,
 ) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, bottom = 8.dp),
@@ -44,7 +43,7 @@ fun SaleComponent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AsyncImage(
-                    model = getImageRequest(url = item.image),
+                    model = getImageRequest(url = item.images.firstOrNull()?.src ?: ""),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -60,35 +59,33 @@ fun SaleComponent(
                     textAlign = TextAlign.Center,
                     maxLines = 1
                 )
-                val price = if (isAuction) "Bid" else "Price"
+
                 Text(
-                    text = "$price: MK ${formatMoney(item.currentBid)}",
+                    text = "price: MK ${formatMoney(item.salePrice.toDouble())}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     maxLines = 1,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                val cart = if (isAuction) "Place a bid" else "Add to cart"
                 Button(onClick = {
-                    if (isAuction) {
-                        placeABid()
-                    } else {
-                        addToCart()
-                    }
+                    addToCart()
                 }) {
-                    Text(text = cart)
+                    Text(text = "Add to cart")
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            Badge(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(8.dp),
+            if (item.on_sale) {
+                Badge(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(8.dp),
 //                containerColor = MaterialTheme.colorScheme.secondary
-            ) {
-                Text(text = "Open")
+                ) {
+                    Text(text = "Sale")
+                }
             }
+
         }
     }
 }

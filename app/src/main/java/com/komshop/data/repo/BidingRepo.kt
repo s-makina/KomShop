@@ -2,7 +2,7 @@ package com.komshop.data.repo
 
 import com.komshop.data.retrofit.RetrofitInterface
 import com.komshop.data.room.dao.CartDao
-import com.komshop.data.room.entity.CartItemEntity
+import com.komshop.data.room.entity.ProductEntity
 import com.komshop.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,8 +23,7 @@ class BidingRepo(val retrofitInterface: RetrofitInterface, val cartDao: CartDao)
         }
     }
 
-    suspend fun addToCart(auctionItem: CartItemEntity) {
-
-        cartDao.insert(auctionItem)
+    suspend fun addToCart(product: ProductEntity) {
+        cartDao.insert(product)
     }
 }

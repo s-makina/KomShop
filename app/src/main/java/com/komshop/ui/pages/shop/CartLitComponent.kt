@@ -22,7 +22,7 @@ fun CartItemCard(item: CartItem, onRemove: ()-> Unit, addQty: ()-> Unit, reduceQ
     Card(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
-                model = getImageRequest(url = item.image),
+                model = getImageRequest(url = item.images.first().src),
                 modifier = Modifier
                     .height(110.dp)
                     .width(120.dp),
@@ -35,7 +35,7 @@ fun CartItemCard(item: CartItem, onRemove: ()-> Unit, addQty: ()-> Unit, reduceQ
                     .padding(8.dp)
             ) {
                 Text(text = item.name, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(text = "MK "+ formatMoney( item.totalPrice))
+                Text(text = "MK "+ formatMoney( (item.price * item.quantity).toDouble()))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = { reduceQty() }) {
                         Icon(

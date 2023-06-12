@@ -8,16 +8,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.komshop.data.Session
-import com.komshop.data.Session.selectedAuction
 import com.komshop.enam.AuctionTypes
 import com.komshop.ui.pages.*
 import com.komshop.ui.pages.admin.AdminHome
 import com.komshop.ui.pages.admin.ConfigureSMSNotification
 import com.komshop.ui.pages.admin.SMSHandler
 import com.komshop.ui.pages.bid.AuctionTypeSelection
-import com.komshop.ui.pages.bid.AuctionItemsSelection
 import com.komshop.ui.pages.bid.DepositRefNumber
 import com.komshop.ui.pages.bid.OnlineBidPage
+import com.komshop.ui.pages.shop.ProductListPage
 import com.komshop.ui.pages.bid.SelectAuctionType
 import com.komshop.ui.pages.shop.DailySales
 import com.komshop.ui.pages.shop.CartPage
@@ -36,9 +35,9 @@ fun Routing(biddingViewModel: BidingViewModel) {
             Welcome(navController)
         }
 
-        composable(route = Screen.PreviewAuctionItem.route) {
-            PreviewAuctionItem(navController)
-        }
+//        composable(route = Screen.PreviewAuctionItem.route) {
+//            PreviewAuctionItem(navController)
+//        }
 
         composable(route = Screen.Syncronizing.route) {
             SyncPage(navController)
@@ -71,7 +70,7 @@ fun Routing(biddingViewModel: BidingViewModel) {
         }
 
         composable(route = Screen.AuctionItemSelection.route) { backStackEntry ->
-            AuctionItemsSelection(navController, biddingViewModel)
+            ProductListPage(navController, biddingViewModel)
 //            val type = backStackEntry.arguments?.getString("type")
 //            val auctionTypes = AuctionTypes.values().find { type == it.title }
 //            val auctionType = selectedAuction.value
@@ -101,9 +100,9 @@ fun Routing(biddingViewModel: BidingViewModel) {
             OnlineBidPage(navController = navController)
         }
 
-        composable(route = Screen.OnlineBidPreview.route) {
-            OnlineAuctionPlaceBid(navController = navController)
-        }
+//        composable(route = Screen.OnlineBidPreview.route) {
+//            OnlineAuctionPlaceBid(navController = navController)
+//        }
         composable(route = Screen.MyBids.route) {
             ShowMyBids(navController = navController)
         }
@@ -127,9 +126,9 @@ fun Routing(biddingViewModel: BidingViewModel) {
         composable(route = Screen.ProductDetails.route) { backStackEntry ->
             val type = backStackEntry.arguments?.getString("type")
             val auctionTypes = AuctionTypes.values().find { type == it.title }
-            val auctionItem = Session.currentAuctionItem.value
-            if (auctionItem != null) {
-                ProductDetails(navController = navController, auctionItem, biddingViewModel)
+            val product = Session.currentAuctionItem.value
+            if (product != null) {
+                ProductDetails(navController = navController, product, biddingViewModel)
             } else {
                 Text(text = "Please report this error NO: 003")
             }

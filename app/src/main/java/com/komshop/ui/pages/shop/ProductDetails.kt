@@ -1,5 +1,6 @@
 package com.komshop.ui.pages.shop
 
+import android.text.Html
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,41 +25,35 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.komshop.currentBidFormat
-import com.komshop.data.model.AuctionItem
-import com.komshop.enam.AuctionTypes
+import com.komshop.data.model.Product
 import com.komshop.ui.componets.PageBackground
 import com.komshop.ui.componets.TopNav
 import com.komshop.ui.dialog.ImagePreviewDialog
 import com.komshop.ui.dialog.getImageRequest
-import com.komshop.ui.dialog.PrebidDialog
-import com.komshop.ui.events.BiddingEvents
 import com.komshop.ui.viewmodel.BidingViewModel
 
 @Composable
 fun ProductDetails(
     navController: NavHostController,
-    auctionItem: AuctionItem,
+    product: Product,
     biddingViewModel: BidingViewModel,
 ) {
     val previewImage = remember { mutableStateOf("") }
     val showPreviewImageDialog = remember { mutableStateOf(false) }
 
-    var previewItem by remember { mutableStateOf<AuctionItem?>(null) }
+//    var previewItem by remember { mutableStateOf<AuctionItem?>(null) }
     val preBidDialog = remember { mutableStateOf(false) }
 
     PageBackground(
         modifier = Modifier,
-        topBar = { TopNav(navController = navController, title = "Product Details") },
+        topBar = { TopNav(navController = navController, title = "", backButton = true) },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 text = {
@@ -71,7 +66,7 @@ fun ProductDetails(
                     )
                 },
                 onClick = {
-                    biddingViewModel.event(BiddingEvents.OnAddToCart(auctionItem))
+//                    biddingViewModel.event(BiddingEvents.OnAddToCart(auctionItem))
                 })
         }
     ) {
@@ -85,12 +80,12 @@ fun ProductDetails(
                     .fillMaxWidth()
                     .height(250.dp)
                     .clickable {
-                        previewImage.value = auctionItem.image
+                        previewImage.value = product.images.firstOrNull()?.src ?: ""
                         showPreviewImageDialog.value = true
                     }
             ) {
                 AsyncImage(
-                    model = getImageRequest(auctionItem.image),
+                    model = getImageRequest(product.images.firstOrNull()?.src ?: ""),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
                     contentDescription = null
@@ -105,16 +100,16 @@ fun ProductDetails(
                 shape = RoundedCornerShape(4.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(text = auctionItem.name, style = MaterialTheme.typography.titleLarge)
+                    Text(text = product.name, style = MaterialTheme.typography.titleLarge)
                     Text(
-                        text = currentBidFormat(auctionItem.currentBid),
+                        text = Html.fromHtml(product.priceHtml).toString(),//currentBidFormat(product.currentBid),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top = 0.dp)
                     )
                 }
             }
-            if (auctionItem.media.size > 1) {
+            if (product.images.size > 1) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -126,15 +121,15 @@ fun ProductDetails(
                         modifier = Modifier.padding(8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(auctionItem.media) { item ->
+                        items(product.images) { item ->
                             Box(modifier = Modifier
                                 .size(100.dp)
                                 .clickable {
-                                    previewImage.value = item.originalUrl
+                                    previewImage.value = item.src
                                     showPreviewImageDialog.value = true
                                 }) {
                                 AsyncImage(
-                                    model = getImageRequest(url = item.originalUrl),
+                                    model = getImageRequest(url = item.src),
                                     modifier = Modifier.fillMaxSize(),
                                     contentScale = ContentScale.Crop,
                                     contentDescription = null
@@ -159,8 +154,7 @@ fun ProductDetails(
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
-                        text = auctionItem.description
-                            ?: "There is no description for this product",
+                        text = Html.fromHtml(product.description).toString(),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -170,7 +164,7 @@ fun ProductDetails(
         }
 
         ImagePreviewDialog(previewImage.value, showPreviewImageDialog)
-        PrebidDialog(auctionItem = auctionItem, preBidDialog, biddingViewModel)
+//        PrebidDialog(auctionItem = product, preBidDialog, biddingViewModel)
     }
 }
 

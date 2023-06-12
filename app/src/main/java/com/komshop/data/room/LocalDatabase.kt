@@ -8,11 +8,11 @@ import androidx.room.TypeConverters
 import com.komshop.Config.app_version
 import com.komshop.data.room.dao.CartDao
 import com.komshop.data.room.dao.UserDao
-import com.komshop.data.room.entity.CartItemEntity
+import com.komshop.data.room.entity.ProductEntity
 import com.komshop.data.room.entity.UserEntity
 
 @Database(
-    entities = [UserEntity::class, CartItemEntity::class],
+    entities = [UserEntity::class, ProductEntity::class],
     version = app_version
 )
 @TypeConverters(Convertors::class)

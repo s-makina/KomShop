@@ -11,7 +11,11 @@ import com.komshop.enam.AuctionTypes
 import com.komshop.ui.componets.State
 
 object Config {
-    const val API_ADDRESS = "https://dev.trustmw.com/api/"
+    const val API_ADDRESS = "https://komshop.net/"
+    const val CONSUMER_KEY = "ck_2a679c710dfe09994c8bb08ccde16e0d9f753f52"
+    const val SECRET_KEY = "cs_1ef197afb3ebce39636a71a23e40eb948132cba0"
+//    const val API_ADDRESS = "https://dev.trustmw.com/api/"
+    const val WHATSAPP_NUMBER = "265880803830"
     const val app_version = 1
     val process = mutableStateOf(State.IDLE)
     val selectedAuctionType = mutableStateOf(AuctionTypes.CASH_AUCTION)

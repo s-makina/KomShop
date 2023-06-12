@@ -1,6 +1,8 @@
 package com.komshop
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -87,4 +89,34 @@ fun formatMoney(num: Double): String {
 
 fun currentBidFormat(currentBid: Double): String {
     return if (currentBid == 0.0) "Be the first one to bid" else "MK "+ formatMoney(currentBid)
+}
+
+fun toInt(s: String): Int {
+    return try {
+        if (s.isEmpty()) 0 else s.toInt()
+    } catch (e: Exception) {
+        0
+    }
+
+}
+fun sendWapMsg(context: Context, phoneNumber: String, message: String) {
+    // on below line we are starting activity
+    // to send the sms from whatsapp.
+    context.startActivity(
+        // on below line we are opening the intent.
+        Intent(
+            // on below line we are calling
+            // uri to parse the data
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                // on below line we are passing uri,
+                // message and whats app phone number.
+                java.lang.String.format(
+                    "https://api.whatsapp.com/send?phone=%s&text=%s",
+                    phoneNumber,
+                    message
+                )
+            )
+        )
+    )
 }

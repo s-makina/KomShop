@@ -1,19 +1,49 @@
 package com.komshop.data.room
 
-import com.komshop.data.model.AuctionItem
 import com.komshop.data.model.CartItem
-import com.komshop.data.room.entity.CartItemEntity
-
-fun AuctionItem.toCartEntity(): CartItemEntity {
-    return CartItemEntity(
+import com.komshop.data.model.Product
+import com.komshop.data.room.entity.ProductEntity
+fun Product.toProductEntity(): ProductEntity {
+    return ProductEntity(
         id = null,
         itemId = id,
-        currentBid = currentBid,
+        name,
         quantity = 1,
-        name = name,
-        description = description,
-        image = image,
-        media = media
+        permalink,
+        date_created,
+        status,
+        featured,
+        description,
+        shortDescription,
+        price,
+        regularPrice,
+        salePrice,
+        on_sale,
+        priceHtml,
+        stockStatus,
+        categories,
+        images
+    )
+}
+
+fun ProductEntity.toProduct(): Product {
+    return Product(
+        id = itemId,
+        name,
+        permalink,
+        date_created,
+        status,
+        featured,
+        description,
+        shortDescription,
+        price,
+        regularPrice,
+        salePrice,
+        on_sale,
+        priceHtml,
+        stockStatus,
+        categories,
+        images
     )
 }
 
@@ -30,30 +60,50 @@ fun AuctionItem.toCartEntity(): CartItemEntity {
 //    )
 //}
 
-fun CartItemEntity.toCartItem(): CartItem {
+fun ProductEntity.toCartItem(): CartItem {
     return CartItem(
         id = id,
-        itemId = itemId,
-        currentBid = currentBid,
+        itemId,
         quantity = quantity,
-        name = name,
-        description = description,
-        image = image,
-        media = media,
-        totalPrice = quantity * currentBid
+        name,
+        permalink,
+        date_created,
+        status,
+        featured,
+        description,
+        shortDescription,
+        price,
+        regularPrice,
+        salePrice,
+        on_sale,
+        priceHtml,
+        stockStatus,
+        categories,
+        images
     )
 }
 
-fun CartItem.toCartEntity(): CartItemEntity {
-    return CartItemEntity(
+
+fun CartItem.toCartEntity(): ProductEntity {
+    return ProductEntity(
         id = id,
-        itemId = itemId,
-        currentBid = currentBid,
-        quantity = quantity,
-        name = name,
-        description = description,
-        image = image,
-        media = media,
+        itemId,
+        name,
+        quantity,
+        permalink,
+        date_created,
+        status,
+        featured,
+        description,
+        shortDescription,
+        price,
+        regularPrice,
+        salePrice,
+        on_sale,
+        priceHtml,
+        stockStatus,
+        categories,
+        images
     )
 }
 

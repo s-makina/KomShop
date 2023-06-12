@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -20,13 +19,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.komshop.Config.WHATSAPP_NUMBER
+import com.komshop.data.getTotalPrice
 import com.komshop.data.model.CartItem
 import com.komshop.formatMoney
+import com.komshop.sendWapMsg
 import com.komshop.ui.componets.PageBackground
 import com.komshop.ui.componets.TopNav
 import com.komshop.ui.dialog.getImageRequest
@@ -47,7 +50,7 @@ fun CheckOutPage(navController: NavHostController) {
 
     PageBackground(
         topBar = { TopNav(navController = navController, title = "Checkout") },
-        bottomBar = { BottomCheckout() }
+        bottomBar = { BottomCheckout(checkOutViewModel) }
     ) {
         Column(
             modifier = Modifier
@@ -91,27 +94,25 @@ fun CheckOutPage(navController: NavHostController) {
                 Text(
                     text = "MK ${formatMoney( state.totalPrice )}",
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
-
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 35.dp, bottom = 8.dp)
-            ) {
-                Text(
-                    text = "Shipping",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f)
-                )
-                Icon(
-                    imageVector = Icons.Default.LocationOn,
-                    contentDescription = null,
-                )
-            }
-
-            ShippingForm(modifier, checkOutViewModel)
+//
+//            Row(
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 35.dp, bottom = 8.dp)
+//            ) {
+//                Text(
+//                    text = "Contact Details",
+//                    style = MaterialTheme.typography.titleMedium,
+//                    modifier = Modifier.weight(1f)
+//                )
+//                Icon(
+//                    imageVector = Icons.Default.LocationOn,
+//                    contentDescription = null,
+//                )
+//            }
+//            ShippingForm(modifier, checkOutViewModel)
         }
     }
 }
@@ -121,13 +122,13 @@ fun CheckOutItem(item: CartItem) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .border(width = 1.dp, color = MaterialTheme.colorScheme.onPrimary),
+            .border(width = 1.dp, color = MaterialTheme.colorScheme.onSurface),
         shape = RoundedCornerShape(0.dp),
         color = Color.Transparent
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             AsyncImage(
-                model = getImageRequest(url = item.image),
+                model = getImageRequest(url = item.images.first().src),
                 modifier = Modifier
                     .size(60.dp),
                 contentDescription = null
@@ -139,19 +140,19 @@ fun CheckOutItem(item: CartItem) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "MK ${formatMoney(item.currentBid)}",
+                    text = "MK ${formatMoney(item.price.toDouble())}",
                     style = MaterialTheme.typography.bodyLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = "Qty: ${item.quantity}",
-                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
             Text(
-                text = "MK ${formatMoney(item.totalPrice)}",
+                text = "MK ${formatMoney(item.getTotalPrice())}",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(8.dp)
             )
@@ -161,10 +162,14 @@ fun CheckOutItem(item: CartItem) {
 }
 
 @Composable
-fun BottomCheckout() {
+fun BottomCheckout(checkOutViewModel: CheckOutViewModel) {
+    val context = LocalContext.current
+
     Column(modifier = Modifier.fillMaxWidth()) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                sendWapMsg(context, WHATSAPP_NUMBER, checkOutViewModel.getMsg())
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.onPrimary,
                 contentColor = MaterialTheme.colorScheme.primary
