@@ -108,12 +108,12 @@ fun TopNav(
 
             if (state.notificationItemCount > 0) {
                 BadgedBox(
-                    modifier = Modifier.defaultMinSize(20.dp),
+                    modifier = Modifier.defaultMinSize(20.dp).padding(end = 8.dp),
                     badge = {
                         Badge(
                             modifier = Modifier.offset(
-                                x = (-12).dp,
-                                y = (10).dp
+                                x = (-15).dp,
+                                y = (18).dp
                             )
                         ) { Text(text = state.notificationItemCount.toString()) }
                     }) {
@@ -123,27 +123,27 @@ fun TopNav(
                 }
             }
 
-            if (!showSearch) {
-                IconButton(onClick = { expanded.value = true }) {
-                    Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = "More Button"
-                    )
-//                MenuDropDown(expanded = expanded, onClick = {
-//                    if (it == "logout") {
-////                    settingsViewModel.logout(context)
-//
-////                            navController.navigate(Screen.LoginPage.route) {
-////                                popUpTo(Screen.LoginPage.route)
-////                            }
-//                    } else {
-//                        navController.navigate(it) {
-//                            launchSingleTop = true
-//                        }
-//                    }
-//                })
-                }
-            }
+//            if (!showSearch) {
+//                IconButton(onClick = { expanded.value = true }) {
+//                    Icon(
+//                        imageVector = Icons.Default.MoreVert,
+//                        contentDescription = "More Button"
+//                    )
+////                MenuDropDown(expanded = expanded, onClick = {
+////                    if (it == "logout") {
+//////                    settingsViewModel.logout(context)
+////
+//////                            navController.navigate(Screen.LoginPage.route) {
+//////                                popUpTo(Screen.LoginPage.route)
+//////                            }
+////                    } else {
+////                        navController.navigate(it) {
+////                            launchSingleTop = true
+////                        }
+////                    }
+////                })
+//                }
+//            }
 
 //        IconButton(onClick = { navController.navigate(Screen.AdminHome.route) }) {
 //            Icon(imageVector = Icons.Default.AdminPanelSettings, contentDescription = null)

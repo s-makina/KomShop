@@ -37,6 +37,7 @@ import com.komshop.ui.componets.PageBackground
 import com.komshop.ui.componets.TopNav
 import com.komshop.ui.dialog.ImagePreviewDialog
 import com.komshop.ui.dialog.getImageRequest
+import com.komshop.ui.events.BiddingEvents
 import com.komshop.ui.viewmodel.BidingViewModel
 
 @Composable
@@ -66,7 +67,7 @@ fun ProductDetails(
                     )
                 },
                 onClick = {
-//                    biddingViewModel.event(BiddingEvents.OnAddToCart(auctionItem))
+                    biddingViewModel.event(BiddingEvents.OnAddToCart(product))
                 })
         }
     ) {
