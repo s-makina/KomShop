@@ -15,6 +15,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,11 +48,12 @@ fun ProductListPage(
     val coroutineScope = rememberCoroutineScope()
     val preBidDialog = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
-
+    val context = LocalContext.current
     val loadingState = productListViewModel.loadingEvent.collectAsState(initial = null).value
     val placeBidEventState = productListViewModel.placeBidEvent.collectAsState(initial = null).value
 
     LaunchedEffect(key1 = true) {
+        productListViewModel.init(context = context)
         productListViewModel.event(ProductListEvents.OnLoadCategories)
         productListViewModel.event(ProductListEvents.OnLoadItems)
     }

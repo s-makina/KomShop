@@ -26,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.komshop.ui.pages.bid.LoadingDialog
 import com.komshop.ui.viewmodel.BidingViewModel
 import com.komshop.util.Resource
 import com.komshop.util.Status
@@ -60,8 +59,6 @@ fun GlobalUiHandler(
             content()
         }
     }
-
-    LoadingDialog(res = loadingState.value, successMessage = "Your prebid have been placed.")
 }
 @Composable
 fun CustomSnackBar(res: Resource<Any>?, message: String, onHide: () -> Unit) {

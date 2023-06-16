@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,14 +13,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddShoppingCart
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Whatsapp
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,10 +35,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.komshop.Config
 import com.komshop.data.model.Product
+import com.komshop.formatMoney
+import com.komshop.getMsg
+import com.komshop.sendWapMsg
 import com.komshop.ui.componets.PageBackground
 import com.komshop.ui.componets.TopNav
 import com.komshop.ui.dialog.ImagePreviewDialog
@@ -46,6 +57,7 @@ fun ProductDetails(
     product: Product,
     biddingViewModel: BidingViewModel,
 ) {
+    val context = LocalContext.current
     val previewImage = remember { mutableStateOf("") }
     val showPreviewImageDialog = remember { mutableStateOf(false) }
 
@@ -55,20 +67,24 @@ fun ProductDetails(
     PageBackground(
         modifier = Modifier,
         topBar = { TopNav(navController = navController, title = "", backButton = true) },
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                text = {
-                    Text(text = "Add to cart")
-                },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = null
-                    )
-                },
-                onClick = {
-                    biddingViewModel.event(BiddingEvents.OnAddToCart(product))
-                })
+        floatingActionButton = {},
+        bottomBar = {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ElevatedButton(onClick = { biddingViewModel.event(BiddingEvents.OnAddToCart(product)) }, modifier = Modifier.weight(1f)) {
+                    Icon(imageVector = Icons.Default.AddShoppingCart, contentDescription = "")
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Add To Cart")
+                }
+                Button(onClick = {
+                    sendWapMsg(context, Config.WHATSAPP_NUMBER, getMsg(product))
+                }, modifier = Modifier.weight(1f)) {
+                    Icon(imageVector = Icons.Default.Whatsapp, contentDescription = "")
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Whatsapp")
+                }
+            }
         }
     ) {
         Column(
@@ -103,7 +119,7 @@ fun ProductDetails(
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(text = product.name, style = MaterialTheme.typography.titleLarge)
                     Text(
-                        text = Html.fromHtml(product.priceHtml).toString(),//currentBidFormat(product.currentBid),
+                        text = "MK "+formatMoney(product.price.toDouble()),//Html.fromHtml().toString(),//currentBidFormat(product.currentBid),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top = 0.dp)

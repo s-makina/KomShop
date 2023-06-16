@@ -1,5 +1,7 @@
 package com.komshop.data.repo
 
+import android.content.Context
+import android.widget.Toast
 import com.google.gson.Gson
 import com.komshop.data.model.AuctionItem
 import com.komshop.data.model.AuctionType
@@ -14,10 +16,12 @@ import com.komshop.data.retrofit.toProductCategory
 import com.komshop.log
 import com.komshop.toArray
 import com.komshop.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 
-class AuctionsRepo(private val retrofitInterface: RetrofitInterface) {
+class AuctionsRepo(private val retrofitInterface: RetrofitInterface ) {
     fun getAuctions(type: String): Flow<Resource<List<AuctionType>>> = flow {
         emit(Resource.loading(null))
         try {

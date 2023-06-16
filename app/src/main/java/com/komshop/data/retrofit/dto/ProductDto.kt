@@ -1,5 +1,8 @@
 package com.komshop.data.retrofit.dto
 
+import androidx.annotation.Keep
+
+@Keep
 data class ProductDto(
     val id: String,
     val name: String,

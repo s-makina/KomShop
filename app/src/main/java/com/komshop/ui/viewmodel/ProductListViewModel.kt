@@ -1,5 +1,7 @@
 package com.komshop.ui.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,6 +32,8 @@ class ProductListViewModel @Inject constructor(
     private val placeBidEventChannel = Channel<Resource<Any>>()
     val placeBidEvent = placeBidEventChannel.receiveAsFlow()
 
+    lateinit var context: Context
+
     private val paginator = DefaultPaginator(
         initialKey = state.page,
         onLoadUpdated = {
@@ -42,7 +46,7 @@ class ProductListViewModel @Inject constructor(
             state.page + 1
         },
         onError = {
-            state = state.copy(error = it?.localizedMessage)
+            state = state.copy(error = it?.message)
         },
         onSuccess = { items, newKey ->
             state = state.copy(
@@ -53,6 +57,9 @@ class ProductListViewModel @Inject constructor(
         }
     )
 
+    fun init(context: Context) {
+        this.context = context
+    }
     fun loadNextItems() {
         viewModelScope.launch(Dispatchers.IO) {
             paginator.loadNextItems()

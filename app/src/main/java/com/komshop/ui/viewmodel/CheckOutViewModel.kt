@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.komshop.data.getTotalPrice
 import com.komshop.data.model.CartItem
+import com.komshop.data.model.Product
 import com.komshop.data.repo.CartRepo
 import com.komshop.formatMoney
 import com.komshop.ui.events.CheckOutEvent
@@ -19,24 +20,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CheckOutViewModel @Inject constructor(
-    private val cartRepo: CartRepo
-): ViewModel() {
+    private val cartRepo: CartRepo,
+) : ViewModel() {
     var state by mutableStateOf(CheckOutUiState())
 
-    fun event( event: CheckOutEvent) {
+    fun event(event: CheckOutEvent) {
         when (event) {
             is CheckOutEvent.Onload -> {
                 loadItems()
             }
+
             is CheckOutEvent.OnFirstNameChange -> {
 
             }
+
             is CheckOutEvent.OnLastNameChange -> {
 
             }
+
             is CheckOutEvent.OnPhoneChange -> {
 
             }
+
             is CheckOutEvent.OnSubmit -> {
 
             }

@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import com.komshop.data.model.Product
 import java.lang.reflect.Type
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -43,6 +44,13 @@ inline fun <reified T> fromJson(json: String, typeToken: Type): T {
 
 fun toJson(obj: Any): String {
     return Gson().toJson(obj)
+}
+
+fun getMsg(product: Product): String {
+    return """
+             I am interested in this product: ${product.name}, %0a
+            *Link:* ${product.permalink} %0a
+           """.trimIndent()
 }
 
 //        inline fun <reified T> toArray(json: Any) = Gson().fromJson<T>(Gson().toJson(json), object : TypeToken<T>() {}.type)
