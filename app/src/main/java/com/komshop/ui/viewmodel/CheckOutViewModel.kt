@@ -31,7 +31,7 @@ class CheckOutViewModel @Inject constructor(
             }
 
             is CheckOutEvent.OnFirstNameChange -> {
-
+                state = state.copy()
             }
 
             is CheckOutEvent.OnLastNameChange -> {

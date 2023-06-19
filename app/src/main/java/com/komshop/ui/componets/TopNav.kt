@@ -9,6 +9,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -17,9 +19,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.komshop.R
 import com.komshop.navigation.Screen
+import com.komshop.share
 import com.komshop.ui.events.NotificationEvents
 import com.komshop.ui.pages.UnderLinedEditText
 import com.komshop.ui.viewmodel.NotificationViewModel
+import java.net.URI
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,7 +112,9 @@ fun TopNav(
 
             if (state.notificationItemCount > 0) {
                 BadgedBox(
-                    modifier = Modifier.defaultMinSize(20.dp).padding(end = 8.dp),
+                    modifier = Modifier
+                        .defaultMinSize(20.dp)
+                        .padding(end = 8.dp),
                     badge = {
                         Badge(
                             modifier = Modifier.offset(
@@ -123,27 +129,27 @@ fun TopNav(
                 }
             }
 
-//            if (!showSearch) {
-//                IconButton(onClick = { expanded.value = true }) {
-//                    Icon(
-//                        imageVector = Icons.Default.MoreVert,
-//                        contentDescription = "More Button"
-//                    )
-////                MenuDropDown(expanded = expanded, onClick = {
-////                    if (it == "logout") {
-//////                    settingsViewModel.logout(context)
-////
-//////                            navController.navigate(Screen.LoginPage.route) {
-//////                                popUpTo(Screen.LoginPage.route)
-//////                            }
-////                    } else {
-////                        navController.navigate(it) {
-////                            launchSingleTop = true
-////                        }
-////                    }
-////                })
-//                }
-//            }
+            if (!showSearch) {
+                IconButton(onClick = { expanded.value = true }) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = "More Button"
+                    )
+                    MenuDropDown(expanded = expanded, onClick = {
+                        if (it == "logout") {
+//                    settingsViewModel.logout(context)
+
+//                            navController.navigate(Screen.LoginPage.route) {
+//                                popUpTo(Screen.LoginPage.route)
+//                            }
+                        } else {
+                            navController.navigate(it) {
+                                launchSingleTop = true
+                            }
+                        }
+                    })
+                }
+            }
 
 //        IconButton(onClick = { navController.navigate(Screen.AdminHome.route) }) {
 //            Icon(imageVector = Icons.Default.AdminPanelSettings, contentDescription = null)
@@ -154,68 +160,33 @@ fun TopNav(
 
 @Composable
 fun MenuDropDown(expanded: MutableState<Boolean>, onClick: (String) -> Unit = {}) {
+    val context = LocalContext.current
+
     DropdownMenu(expanded = expanded.value, onDismissRequest = { expanded.value = false }) {
         DropdownMenuItem(
-            text = { Text("Admin Section") },
+            text = { Text("Share") },
             onClick = {
                 expanded.value = false
-                onClick(Screen.AdminHome.route)
+                share(context, "https://play.google.com/store/apps/details?id=com.komshoponline")
             },
             leadingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_user_allow),
-                    contentDescription = ""
-                )
-            })
-//
-        DropdownMenuItem(
-            text = { Text("Live Auctions") },
-            onClick = {
-                expanded.value = false
-                onClick(Screen.SelectAuction.route)
-            },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_house_auction),
+                    imageVector = Icons.Default.Share,
                     contentDescription = ""
                 )
             })
 
-        DropdownMenuItem(
-            text = { Text("Online Auctions") },
-            onClick = {
-                expanded.value = false
-                onClick(Screen.OnlineAuction.route)
-            },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_internet),
-                    contentDescription = ""
-                )
-            })
+        val uriHandler = LocalUriHandler.current
 
         DropdownMenuItem(
-            text = { Text("My bids") },
+            text = { Text("Manage Products") },
             onClick = {
                 expanded.value = false
-                onClick(Screen.MyBids.route)
+                uriHandler.openUri("https://komshop.net/wp-admin")
             },
             leadingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_auction),
-                    contentDescription = ""
-                )
-            })
-
-        DropdownMenuItem(
-            text = { Text("Logout") },
-            onClick = {
-                expanded.value = false
-                onClick("logout")
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Logout,
+                    imageVector = Icons.Default.ProductionQuantityLimits,
                     contentDescription = ""
                 )
             })

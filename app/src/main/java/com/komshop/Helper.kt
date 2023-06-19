@@ -22,6 +22,16 @@ fun log(content: Any?) {
     Log.i("BETH", "$content")
 }
 
+fun share(context: Context, content: String) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, content)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    context.startActivity(shareIntent)
+}
+
 fun toast(context: Context, message: String?) {
     Toast.makeText(context, "$message", Toast.LENGTH_LONG).show()
 }

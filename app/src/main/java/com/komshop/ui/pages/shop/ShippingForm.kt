@@ -40,7 +40,7 @@ fun ShippingForm(modifier: Modifier, checkOutViewModel: CheckOutViewModel) {
             onValueChange = {
                 checkOutViewModel.event(CheckOutEvent.OnFirstNameChange(it))
             },
-            label = { Text(text = "First name") },
+            label = { Text(text = "Name") },
             colors = style,
             isError = state.firstNameError != null
         )
@@ -50,9 +50,10 @@ fun ShippingForm(modifier: Modifier, checkOutViewModel: CheckOutViewModel) {
             onValueChange = {
                 checkOutViewModel.event(CheckOutEvent.OnLastNameChange(it))
             },
-            label = { Text(text = "Last name") }, colors = style,
+            label = { Text(text = "City") }, colors = style,
             isError = state.lastNameError != null
         )
+
         OutlinedTextField(
             modifier = inputModifier,
             value = state.phone,
@@ -63,15 +64,17 @@ fun ShippingForm(modifier: Modifier, checkOutViewModel: CheckOutViewModel) {
             isError = state.phoneError != null,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
         )
+
 //        OutlinedTextField(
 //            modifier = inputModifier,
 //            value = "",
 //            onValueChange = {},
 //            label = { Text(text = "Alternative Phone") }, colors = style)
-//        OutlinedTextField(
-//            modifier = inputModifier,
-//            value = "",
-//            onValueChange = {},
-//            label = { Text(text = "Email") }, colors = style)
+
+        OutlinedTextField(
+            modifier = inputModifier,
+            value = "",
+            onValueChange = {},
+            label = { Text(text = "Email") }, colors = style)
     }
 }

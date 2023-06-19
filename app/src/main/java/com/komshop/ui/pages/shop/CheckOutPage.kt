@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -97,22 +98,22 @@ fun CheckOutPage(navController: NavHostController) {
                 )
             }
 //
-//            Row(
-//                modifier = modifier
-//                    .fillMaxWidth()
-//                    .padding(top = 35.dp, bottom = 8.dp)
-//            ) {
-//                Text(
-//                    text = "Contact Details",
-//                    style = MaterialTheme.typography.titleMedium,
-//                    modifier = Modifier.weight(1f)
-//                )
-//                Icon(
-//                    imageVector = Icons.Default.LocationOn,
-//                    contentDescription = null,
-//                )
-//            }
-//            ShippingForm(modifier, checkOutViewModel)
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = 35.dp, bottom = 8.dp)
+            ) {
+                Text(
+                    text = "Contact Details",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f)
+                )
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = null,
+                )
+            }
+            ShippingForm(modifier, checkOutViewModel)
         }
     }
 }
@@ -169,6 +170,7 @@ fun BottomCheckout(checkOutViewModel: CheckOutViewModel) {
         Button(
             onClick = {
                 sendWapMsg(context, WHATSAPP_NUMBER, checkOutViewModel.getMsg())
+                checkOutViewModel.event(CheckOutEvent.OnSubmit)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.onPrimary,
