@@ -17,7 +17,7 @@ object Config {
 //    const val API_ADDRESS = "https://dev.trustmw.com/api/"
     const val WHATSAPP_NUMBER = "265880803830"
     const val EMAIL = "hello@Komshoponline.com"
-    const val app_version = 1
+    const val app_version = 2
     val process = mutableStateOf(State.IDLE)
     val selectedAuctionType = mutableStateOf(AuctionTypes.CASH_AUCTION)
     const val sampleImage = "https://dev.trustmw.com/storage/80/_HMH8541.jpg"
@@ -25,7 +25,7 @@ object Config {
 
 @Composable
 fun ChangeStatusBarColor(bgColor: Color) {
-    val defaultColor =  MaterialTheme.colorScheme.primary
+    val defaultColor =  MaterialTheme .colorScheme.primary
     LaunchedEffect(key1 = bgColor) {
         Session.statusColor.value = bgColor
     }
