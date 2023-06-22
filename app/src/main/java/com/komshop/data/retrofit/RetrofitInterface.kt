@@ -1,8 +1,10 @@
 package com.komshop.data.retrofit
 
 import com.komshop.data.retrofit.dto.NetworkResponse
+import com.komshop.data.retrofit.dto.OrderDto
 import com.komshop.data.retrofit.dto.ProductCategoryDto
 import com.komshop.data.retrofit.dto.ProductDto
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface RetrofitInterface {
@@ -61,6 +63,9 @@ interface RetrofitInterface {
 
     @GET("user/{code}")
     suspend fun getUser(@Path("code") code: String): NetworkResponse
+
+    @POST("/wp-json/wc/v3/orders")
+    suspend fun submitOrder(@Body body: OrderDto): ResponseBody
 
 }
 

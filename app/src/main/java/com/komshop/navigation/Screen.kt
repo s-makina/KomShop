@@ -33,6 +33,7 @@ sealed class Screen(val route: String) {
     object DailySales : Screen("daily_sales")
     object CartPage : Screen("cart_page")
     object CheckOutPage : Screen("check_out_page")
+    object AboutUs : Screen("about_us")
     object ProductDetails : Screen("product_details_page/{type}"){
         fun getRoute(auctionTypes: AuctionTypes) =
             "product_details_page/${auctionTypes.title}"

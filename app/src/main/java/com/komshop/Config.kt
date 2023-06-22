@@ -16,6 +16,7 @@ object Config {
     const val SECRET_KEY = "cs_1ef197afb3ebce39636a71a23e40eb948132cba0"
 //    const val API_ADDRESS = "https://dev.trustmw.com/api/"
     const val WHATSAPP_NUMBER = "265880803830"
+    const val EMAIL = "hello@Komshoponline.com"
     const val app_version = 1
     val process = mutableStateOf(State.IDLE)
     val selectedAuctionType = mutableStateOf(AuctionTypes.CASH_AUCTION)

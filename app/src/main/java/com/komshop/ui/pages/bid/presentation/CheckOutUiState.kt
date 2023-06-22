@@ -9,6 +9,8 @@ data class CheckOutUiState(
     val firstNameError: String? = null,
     val lastName: String = "",
     val lastNameError: String? = null,
+    val city: String = "",
+    val cityError: String? = null,
     val phone: String = "",
     val phoneError: String? = null,
 )

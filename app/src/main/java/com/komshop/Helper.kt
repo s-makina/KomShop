@@ -1,5 +1,7 @@
 package com.komshop
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -137,4 +139,14 @@ fun sendWapMsg(context: Context, phoneNumber: String, message: String) {
             )
         )
     )
+}
+
+fun copyToClipboard(context: Context, text: String) {
+    // Gets a handle to the clipboard service.
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    // Creates a new text clip to put on the clipboard
+    val clip: ClipData = ClipData.newPlainText("Komshop", text)
+//    Toast.makeText(context, "Copied!", Toast.LENGTH_LONG).show()
+    // Set the clipboard's primary clip.
+    clipboard.setPrimaryClip(clip)
 }

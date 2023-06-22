@@ -190,5 +190,18 @@ fun MenuDropDown(expanded: MutableState<Boolean>, onClick: (String) -> Unit = {}
                     contentDescription = ""
                 )
             })
+
+        DropdownMenuItem(
+            text = { Text("About KomShop") },
+            onClick = {
+                expanded.value = false
+                onClick(Screen.AboutUs.route)
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.ProductionQuantityLimits,
+                    contentDescription = ""
+                )
+            })
     }
 }

@@ -28,6 +28,6 @@ class RepoModule {
     fun provideNotificationRepo(cartDao: CartDao) = NotificationRepo(cartDao)
 
     @Provides
-    fun provideCartRepo(cartDao: CartDao) = CartRepo(cartDao)
+    fun provideCartRepo(cartDao: CartDao, retrofitInterface: RetrofitInterface) = CartRepo(retrofitInterface, cartDao)
 
 }

@@ -2,6 +2,7 @@ package com.komshop.data.room
 
 import com.komshop.data.model.CartItem
 import com.komshop.data.model.Product
+import com.komshop.data.retrofit.dto.OrderItem
 import com.komshop.data.room.entity.ProductEntity
 fun Product.toProductEntity(): ProductEntity {
     return ProductEntity(
@@ -104,6 +105,13 @@ fun CartItem.toCartEntity(): ProductEntity {
         stockStatus,
         categories,
         images
+    )
+}
+
+fun CartItem.toLineItem(): OrderItem {
+    return OrderItem(
+        product_id = itemId,
+        quantity = quantity
     )
 }
 

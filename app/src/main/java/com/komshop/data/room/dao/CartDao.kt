@@ -27,4 +27,7 @@ interface CartDao {
 
     @Query("SELECT COUNT(*) FROM tbl_cart_item")
     fun getTotalItems(): Flow<Int>
+
+    @Query("DELETE FROM tbl_cart_item")
+    suspend fun clear()
 }

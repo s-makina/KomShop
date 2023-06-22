@@ -7,8 +7,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Whatsapp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -18,24 +20,33 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.komshop.Config.WHATSAPP_NUMBER
+import com.komshop.data.Session.processing
 import com.komshop.data.getTotalPrice
 import com.komshop.data.model.CartItem
 import com.komshop.formatMoney
+import com.komshop.navigation.Screen
 import com.komshop.sendWapMsg
 import com.komshop.ui.componets.PageBackground
 import com.komshop.ui.componets.TopNav
+import com.komshop.ui.dialog.Alert
+import com.komshop.ui.dialog.AlertType
 import com.komshop.ui.dialog.getImageRequest
 import com.komshop.ui.events.CheckOutEvent
 import com.komshop.ui.viewmodel.CheckOutViewModel
+import com.komshop.util.Status
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun CheckOutPage(navController: NavHostController) {
@@ -44,6 +55,7 @@ fun CheckOutPage(navController: NavHostController) {
 
     val modifier = Modifier.padding(horizontal = 16.dp)
     val scrollState = rememberScrollState()
+    val loadingState = checkOutViewModel.submittingOrder.collectAsStateWithLifecycle(initialValue = null).value
 
     LaunchedEffect(key1 = true) {
         checkOutViewModel.event(CheckOutEvent.Onload)
@@ -51,7 +63,9 @@ fun CheckOutPage(navController: NavHostController) {
 
     PageBackground(
         topBar = { TopNav(navController = navController, title = "Checkout") },
-        bottomBar = { BottomCheckout(checkOutViewModel) }
+        bottomBar = {
+            BottomCheckout(checkOutViewModel)
+        }
     ) {
         Column(
             modifier = Modifier
@@ -84,16 +98,18 @@ fun CheckOutPage(navController: NavHostController) {
                 }
             }
 
-            Row(modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp)) {
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            ) {
                 Text(
                     text = "Total",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "MK ${formatMoney( state.totalPrice )}",
+                    text = "MK ${formatMoney(state.totalPrice)}",
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
@@ -115,6 +131,27 @@ fun CheckOutPage(navController: NavHostController) {
             }
             ShippingForm(modifier, checkOutViewModel)
         }
+    }
+
+    val coroutine = rememberCoroutineScope()
+    
+    when (loadingState?.status) {
+        Status.LOADING -> {
+            processing.value = true
+        }
+        Status.SUCCESS -> {
+            processing.value = false
+            Alert(content = "Your Order have been submitted", alertType = AlertType.SUCCESS)
+            LaunchedEffect(key1 = true ) {
+                delay(2000)
+                navController.navigate(Screen.AuctionItemSelection.route)
+            }
+        }
+        Status.ERROR -> {
+            processing.value = false
+            Alert(content = loadingState.message ?: "", alertType = AlertType.ERROR)
+        }
+        else -> Unit
     }
 }
 
@@ -166,10 +203,38 @@ fun CheckOutItem(item: CartItem) {
 fun BottomCheckout(checkOutViewModel: CheckOutViewModel) {
     val context = LocalContext.current
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         Button(
             onClick = {
-                sendWapMsg(context, WHATSAPP_NUMBER, checkOutViewModel.getMsg())
+                checkOutViewModel.event(CheckOutEvent.OnSubmitWhatsapp(context))
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .offset(y = (1).dp),
+//            shape = RoundedCornerShape(0.dp)
+        ) {
+            Icon(imageVector = Icons.Default.Whatsapp, contentDescription = null)
+            Text(
+                text = "Whatsapp",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 8.dp),
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+
+        Button(
+            onClick = {
                 checkOutViewModel.event(CheckOutEvent.OnSubmit)
             },
             colors = ButtonDefaults.buttonColors(
@@ -178,13 +243,19 @@ fun BottomCheckout(checkOutViewModel: CheckOutViewModel) {
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
-                .padding(bottom = 0.dp)
+//                .height(60.dp)
+                .weight(1f)
                 .offset(y = (1).dp),
-            shape = RoundedCornerShape(0.dp)
+//            shape = RoundedCornerShape(0.dp)
         ) {
-            Text(text = "Submit Order", modifier = Modifier.padding(end = 8.dp), style = MaterialTheme.typography.titleMedium)
-            Icon(imageVector = Icons.Default.Check, contentDescription = null)
+            Icon(imageVector = Icons.Default.CheckCircle, contentDescription = null)
+            Text(
+                text = "Submit Order",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 8.dp),
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
